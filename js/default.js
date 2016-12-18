@@ -4,6 +4,7 @@
 var jsHeadTitle=document.getElementById('headTitle');//获取标题
 var jsHeadBird=document.getElementById('headBird');//获取标题中小鸟
 var jsWrapBg=document.getElementById('warpBg');//获取背景界面
+var backSound=document.getElementById('back-sound');//获取背景音乐
 
 
 var Y=3;//标题的摆动幅度
@@ -59,15 +60,29 @@ function landRun() {
                 window.clearInterval(landTimer);//清除landTimer定时器
                 bird.fallSpeed = 0; //小鸟下落
                 jsWrapBg.onclick = null; //消除点击事件
+                var newBlock2 = new Block();
+                newBlock2.createEnd();
+                backSound.loop = false;
+                backSound.src = "sound/end.wav";
             }
         }
-
         //生成后续管道
         if (blocksArr[blocksArr.length - 1].downDivWrap.offsetLeft < (450 - blockDistance)) {
             blockDistance = baseObj.randomNum(130, 250);
             var newBlock = new Block();
             newBlock.createBlock();
             blocksArr.push(newBlock);
+        }
+        //进行加分
+        if(blocksArr[0].downDivWrap.offsetLeft > -4 && blocksArr[0].downDivWrap.offsetLeft < 0){
+            score[2]++;
+            if(score[2] > 9){
+                score[2] = 0;
+                score[1]++;
+            }if(score[1] > 9){
+                score[0]++;
+            }
+            changeScore(50,50);
         }
         //清除超出范围管道
         if (blocksArr[0].downDivWrap.offsetLeft < -50) {
@@ -88,9 +103,14 @@ function landRun() {
         bird.showBird(jsWrapBg); //插入小鸟到界面中
         bird.flyBird(); //控制小鸟飞翔下落
         bird.wingWave(); //逐帧动画，小鸟煽动翅膀
+
+        changeScore(50,50);//创建计分板
+
         jsWrapBg.onclick = function () {
             bird.fallSpeed = -8;
-            // bird.flyBird();
+            var jumpSound =  document.getElementById('jump-sound');
+            jumpSound.src = "sound/jump.wav";
+            jumpSound.autoplay = "autoplay";;
         };
         blockDistance = baseObj.randomNum(130, 250);
         var newBlock = new Block();
@@ -99,4 +119,17 @@ function landRun() {
         blocksArr.push(newBlock);
     };
 
+
+//计分板
+var nums = document.getElementsByClassName('number');//获取数字
+var score = [0,0,0];//分数
+
+function changeScore(top,left) {
+    for(var i =0;i < nums.length;i++){
+        nums[i].style.cssText = "position:absolute;height:50px; width:30px;z-index:1;background-repeat:no-repeat";
+        nums[i].style.backgroundImage = "url(img/score/font_" + score[i] + ".png";
+        nums[i].style.left = left + 30*i + "px";
+        nums[i].style.top = top + "px";
+    }
+}
 

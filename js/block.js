@@ -43,6 +43,20 @@ function Block() {
         //控制管道移动的方法
         this.upDivWrap.style.left = this.upDivWrap.offsetLeft - 3 +"px";
         this.downDivWrap.style.left = this.downDivWrap.offsetLeft - 3 +"px";
+    };
+
+    this.createEnd = function () {
+        var endDiv = this.createDiv("url(img/score_panel.png)","120px","absolute","53px","150px");
+        // endDiv.style.display = "none";
+        var restart = this.createDiv("url(img/button_ok.png)","30px","absolute","130px","280px");
+        restart.style.width =80 + "px";
+        changeScore(194,80);
+        endDiv.style.width = "235px";
+        jsWrapBg.appendChild(endDiv);
+        jsWrapBg.appendChild(restart);
+        restart.onclick = function () {
+            window.location.href = "index.html"
+        }
     }
 }
 
@@ -68,3 +82,4 @@ var baseObj = {
         return (!(obj1Left>obj2Width || obj1Width<obj2Left || obj1Top>obj2Height || obj1Height<obj2Top));
     }
 };
+
