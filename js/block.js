@@ -47,13 +47,19 @@ function Block() {
 
     this.createEnd = function () {
         var endDiv = this.createDiv("url(img/score_panel.png)","120px","absolute","53px","150px");
-        // endDiv.style.display = "none";
+        endDiv.style.width = "235px";
+
         var restart = this.createDiv("url(img/button_ok.png)","30px","absolute","130px","280px");
         restart.style.width =80 + "px";
+
+        var gameOver = this.createDiv("url(img/game-over.png)","60px","absolute","70px","100px")
+        gameOver.style.width = 200 + "px";
+
         changeScore(194,80);
-        endDiv.style.width = "235px";
+
         jsWrapBg.appendChild(endDiv);
         jsWrapBg.appendChild(restart);
+        jsWrapBg.appendChild(gameOver);
         restart.onclick = function () {
             window.location.href = "index.html"
         }
